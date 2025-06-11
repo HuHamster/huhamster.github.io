@@ -1,160 +1,547 @@
+
 <!DOCTYPE html>
-<html lang="en" class="h-full">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HuHamster - Homepage Under Construction</title>
+    <title>HuHamster - Your Guide to the World of Arduino</title>
     <!-- Link to Tailwind CSS CDN for quick and responsive styling -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Link to Inter font from Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
-    <!-- Font Awesome for icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <!-- Google AdSense Script -->
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6623599799572768"
-            crossorigin="anonymous"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        /* Base styles for the entire page, setting a darker, more dynamic background */
+        /* Set base font for the entire website */
         body {
             font-family: 'Inter', sans-serif;
-            /* Ultra cool gradient background */
-            background: linear-gradient(135deg, #0A0A0A 0%, #1A1A1A 50%, #0A0A0A 100%);
-            color: #E2E8F0; /* Light gray text */
-            min-height: 100vh; /* Ensure body takes full viewport height */
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            overflow: hidden; /* Prevent scrollbar from background animations */
-            position: relative; /* For pseudo-elements / background effects */
+            @apply bg-gray-950 text-gray-100; /* Very dark background and light text */
         }
-
-        /* Subtle background overlay for texture */
-        body::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: url('data:image/svg+xml,%3Csvg width="6" height="6" viewBox="0 0 6 6" xmlns="http://www.w3.org/2000/svg"%3E%3Cg fill="%239C92AC" fill-opacity="0.05" fill-rule="evenodd"%3E%3Cpath d="M5 0h1L0 6V5zM6 5v1H5z"/%3E%3C/g%3E%3C/svg%3E'); /* Subtle SVG pattern */
-            opacity: 0.8;
-            pointer-events: none;
-            z-index: -1;
+        /* Styles for smooth scrolling */
+        html {
+            scroll-behavior: smooth;
         }
-
-        /* Base styles for primary buttons with enhanced depth and interaction */
+        /* Base button styles, adding depth and interactivity */
         .btn-primary {
-            @apply px-10 py-5 bg-gradient-to-br from-blue-700 to-blue-900 font-extrabold rounded-2xl shadow-3xl text-white text-3xl
-                   hover:from-blue-600 hover:to-blue-800 transition duration-500 ease-in-out transform
-                   hover:-translate-y-2 hover:scale-105 focus:outline-none focus:ring-8 focus:ring-blue-500 focus:ring-opacity-60
-                   relative overflow-hidden;
-            color: #FFFFFF !important; /* Ensure white text */
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.4), 0 0 40px rgba(66, 153, 225, 0.5); /* Enhanced shadow with glow */
+            @apply px-7 py-3 bg-blue-600 font-semibold rounded-lg shadow-xl hover:bg-blue-700 transition duration-300 ease-in-out transform hover:-translate-y-1 hover:shadow-2xl focus:outline-none focus:ring-4 focus:ring-blue-500 focus:ring-opacity-50;
+            color: #FFFFFF !important; /* Explicitly set white color */
+        }
+        .btn-secondary {
+            /* Changed text color to white for better contrast */
+            @apply px-7 py-3 bg-gray-700 font-semibold rounded-lg shadow-xl hover:bg-gray-600 transition duration-300 ease-in-out transform hover:-translate-y-1 hover:shadow-2xl focus:outline-none focus:ring-4 focus:ring-gray-600 focus:ring-opacity-50;
+            color: #FFFFFF !important; /* Explicitly set white color */
+        }
+        /* Styles for video/project cards, adding distinct borders and hover effects */
+        .card {
+            @apply bg-gray-800 rounded-xl shadow-xl overflow-hidden transform transition duration-300 hover:scale-[1.02] hover:shadow-2xl border border-gray-700;
+        }
+        /* Styles for image links in the video section */
+        .card img {
+            @apply w-full h-48 object-cover rounded-xl; 
         }
 
-        /* Pseudo-element for glowing border on button hover */
-        .btn-primary::before {
-            content: '';
+        /* --- Specific navigation styles --- */
+
+        /* Styles for individual navigation links (applies to desktop and mobile) */
+        nav a {
+            /* Changed text color to white for better contrast */
+            @apply hover:text-gray-300 transition duration-300 font-medium; 
+            color: #FFFFFF !important; /* Explicitly set white color */
+        }
+        
+        /* Specific mobile navigation styles (initially hidden by default) */
+        .mobile-nav {
+            display: none; /* Hidden by default */
+            flex-direction: column;
+            width: 100%;
+            background-color: #1f2937; /* Darker background for mobile menu */
             position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(circle at center, rgba(100, 200, 255, 0.3) 0%, transparent 70%);
-            transform: rotate(45deg);
-            transition: all 0.7s ease-in-out;
-            opacity: 0;
-            z-index: 0;
+            top: 64px; /* Header height */
+            left: 0;
+            padding: 1rem 0;
+            border-bottom-left-radius: 0.5rem;
+            border-bottom-right-radius: 0.5rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.5); /* Stronger shadow */
+            z-index: 40; /* Ensure it's above other content, but below header */
+        }
+        .mobile-nav.active {
+            display: flex; /* Show mobile navigation when active */
+        }
+        .mobile-nav a {
+            padding: 0.75rem 1.5rem;
+            width: 100%;
+            text-align: center;
+            color: #d1d5db; /* Light gray text for mobile links */
+        }
+        .mobile-nav a:hover {
+            background-color: #374151; /* Darker background on hover for mobile links */
+            color: #93c5fd; /* Lighter blue on hover */
         }
 
-        .btn-primary:hover::before {
-            transform: rotate(225deg);
-            opacity: 1;
+        /* Styles for hamburger icon (hidden by default on desktop) */
+        .hamburger {
+            display: none; 
         }
 
-        .btn-primary span, .btn-primary i {
-            position: relative;
-            z-index: 1; /* Ensure text and icon are above the glow effect */
+        /* Media query for mobile screens (max-width: 768px) */
+        @media (max-width: 768px) {
+            .desktop-nav {
+                display: none; /* Hide desktop navigation on mobile devices */
+            }
+            .hamburger {
+                display: block; /* Show hamburger on mobile devices */
+            }
         }
 
-        /* Keyframe animations for text elements - adjusted for less intensity */
+        /* Media query for desktop screens (min-width: 769px) */
+        @media (min-width: 769px) {
+            .desktop-nav {
+                display: flex !important; /* Ensure desktop navigation is displayed on desktop */
+            }
+            .mobile-nav {
+                display: none !important; /* Explicitly hide mobile navigation on desktop, overrides any JS */
+            }
+            .hamburger {
+                display: none !important; /* Hide hamburger on desktop */
+            }
+        }
+        /* --- End specific navigation styles --- */
+
+
+        /* Keyframe animations for hero section elements */
         @keyframes fade-in-down {
-            from { opacity: 0; transform: translateY(-10px); filter: blur(2px); } /* Reduced blur and translation */
-            to { opacity: 1; transform: translateY(0); filter: blur(0); }
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
+
         @keyframes fade-in-up {
-            from { opacity: 0; transform: translateY(10px); filter: blur(2px); } /* Reduced blur and translation */
-            to { opacity: 1; transform: translateY(0); filter: blur(0); }
-        }
-        /* Keyframe for subtle text glow - softened */
-        @keyframes text-glow {
-            0% { text-shadow: 0 0 2px rgba(66, 153, 225, 0.1); }
-            50% { text-shadow: 0 0 10px rgba(66, 153, 225, 0.4), 0 0 15px rgba(66, 153, 225, 0.2); }
-            100% { text-shadow: 0 0 2px rgba(66, 153, 225, 0.1); }
-        }
-        /* Keyframe for YouTube icon spin - changed to a single, subtle rotation on hover */
-        @keyframes spin {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         .animate-fade-in-down {
-            animation: fade-in-down 0.7s ease-out forwards; /* Slightly faster */
+            animation: fade-in-down 0.8s ease-out forwards;
         }
+
         .animate-fade-in-up {
-            animation: fade-in-up 0.7s ease-out forwards; /* Slightly faster */
-            animation-delay: 0.15s; /* Reduced delay */
+            animation: fade-in-up 0.8s ease-out forwards;
+            animation-delay: 0.2s; /* Delay for staggered effect */
             animation-fill-mode: backwards;
         }
-        /* Apply subtle glow to heading */
-        .text-glow-animation {
-            animation: text-glow 4s ease-in-out infinite alternate; /* Slower glow animation */
+
+        /* Scroll to top button styles */
+        #scrollToTopBtn {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: #3b82f6; /* Blue-600 */
+            color: white;
+            padding: 1rem;
+            border-radius: 9999px; /* Fully rounded */
+            box-shadow: 0 4_2px 12px rgba(0, 0, 0, 0.4);
+            display: none; /* Hidden by default */
+            transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
+            cursor: pointer;
+            z-index: 100;
         }
-        /* Apply spin animation to YouTube icon on hover */
-        .btn-primary:hover .fa-youtube {
-            animation: spin 0.5s ease-out forwards; /* Single, faster spin on hover */
+        #scrollToTopBtn:hover {
+            background-color: #2563eb; /* Blue-700 */
+            transform: translateY(-3px);
         }
     </style>
 </head>
-<body class="antialiased flex flex-col items-center justify-center text-center">
+<body class="antialiased">
 
-    <main class="flex-grow flex items-center justify-center w-full">
-        <section class="py-20 px-4 max-w-5xl mx-auto">
-            <div class="relative z-10 p-8 md:p-12 bg-gray-900 bg-opacity-70 rounded-3xl shadow-xl border border-gray-700 backdrop-blur-sm
-                        transition-all duration-500 transform scale-100 hover:scale-[1.01] hover:shadow-2xl-blue">
-                <!-- Title for the under construction page with glow effect and larger font -->
-                <h1 class="text-7xl md:text-8xl font-extrabold mb-8 text-blue-400 animate-fade-in-down drop-shadow-xl text-glow-animation">
-                    Website Under Construction!
-                </h1>
-                <!-- Main message to the user with improved leading -->
-                <p class="text-2xl md:text-3xl text-gray-300 mb-10 animate-fade-in-up leading-relaxed">
-                    We are currently working hard to bring you an amazing website.
-                    Stay tuned for something extraordinary!
-                </p>
-                <!-- Invitation to subscribe to the YouTube channel with more emphasis -->
-                <p class="text-xl md:text-2xl text-gray-400 mb-16 animate-fade-in-up leading-relaxed" style="animation-delay: 0.4s;">
-                    In the meantime, don't miss out on our latest content!
-                    Subscribe to our YouTube channel for new videos and exciting updates.
-                </p>
+    <!-- Overall container for the website -->
+    <div class="min-h-screen flex flex-col">
 
-                <!-- YouTube subscription button with enhanced styling -->
-                <a href="https://www.youtube.com/@HuHamster" target="_blank"
-                   class="btn-primary inline-flex items-center justify-center space-x-4 animate-fade-in-up"
-                   style="animation-delay: 0.6s;">
-                    <i class="fab fa-youtube text-4xl"></i> <!-- Larger icon -->
-                    <span>Subscribe to YouTube</span>
-                </a>
+        <!-- Header -->
+        <header class="bg-gray-800 shadow-lg p-4 sticky top-0 z-50 border-b border-gray-700">
+            <div class="container mx-auto flex justify-between items-center">
+                <!-- Logo/Channel Name -->
+                <a href="#home" class="text-2xl font-bold text-blue-400 hover:text-blue-300 transition duration-300">HuHamster</a>
+
+                <!-- Navigation Menu (Desktop) -->
+                <nav class="hidden md:flex space-x-8 desktop-nav">
+                    <a href="#home">Home</a>
+                    <a href="/tutorials">Tutorials</a>
+                    <a href="/articles">Articles</a>
+                    <a href="/projects">Projects</a>
+                    <a href="#about-section">About HuHamster</a>
+                    <a href="#contact-section">Contact Us</a>
+                </nav>
+
+                <!-- Hamburger menu for mobile -->
+                <button class="md:hidden text-gray-300 focus:outline-none hamburger" onclick="toggleMenu()">
+                    <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                    </svg>
+                </button>
             </div>
-        </section>
-    </main>
+            <!-- Mobile navigation menu (hidden by default, only shown via JS on small screens) -->
+            <nav class="mobile-nav" id="mobile-menu">
+                <a href="#home">Home</a>
+                <a href="/tutorials">Tutorials</a>
+                <a href="/articles">Articles</a>
+                <a href="/projects">Projects</a>
+                <a href="#about-section">About HuHamster</a>
+                <a href="#contact-section">Contact Us</a>
+            </nav>
+        </header>
 
-    <!-- Footer for the page -->
-    <footer class="bg-gray-800 text-white py-6 px-4 w-full rounded-t-3xl shadow-inner border-t border-gray-700 relative z-20">
-        <div class="container mx-auto text-center">
-            <p class="text-lg text-gray-400">&copy; 2025 HuHamster. All rights reserved.</p>
-        </div>
-    </footer>
+        <!-- Main content area -->
+        <main class="flex-grow">
 
+            <!-- Home Section - Restored original content for the hero banner -->
+            <section id="home" class="relative bg-gradient-to-br from-gray-900 to-blue-900 text-white py-24 px-4 md:py-40 flex items-center justify-center text-center shadow-2xl overflow-hidden">
+                <div class="absolute inset-0 opacity-15" style="background-image: url('https://www.transparenttextures.com/patterns/cubes.png');"></div>
+                <div class="container mx-auto relative z-10">
+                    <h1 class="text-4xl md:text-6xl font-extrabold mb-4 leading-tight drop-shadow-lg animate-fade-in-down">
+                        HuHamster: Your Guide to the World of Arduino!
+                    </h1>
+                    <p class="text-lg md:text-xl mb-10 opacity-90 animate-fade-in-up">
+                        Dive into electronics and programming with our easy-to-follow tutorials and exciting projects.
+                    </p>
+                    <div class="flex flex-col sm:flex-row justify-center space-y-4 sm:space-y-0 sm:space-x-6 animate-fade-in-up" style="animation-delay: 0.4s;">
+                        <a href="/tutorials" class="btn-primary">Tutorials</a> <!-- Changed href to /tutorials -->
+                        <a href="https://www.youtube.com/@HuHamster" target="_blank" class="btn-secondary">Subscribe on YouTube</a>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Tutorials Section - Using content from original Tutorials -->
+            <section id="tutorials-section" class="py-20 px-4 bg-gray-900">
+                <div class="container mx-auto">
+                    <h2 class="text-4xl font-bold text-center mb-12 text-blue-400">Tutorials</h2>
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+                        <!-- Example Tutorial Card 1 (Text-based) -->
+                        <div class="card">
+                            <img src="https://placehold.co/600x350/2d3748/e2e8f0?text=Beginner+Guide" alt="Beginner Arduino Tutorial" class="w-full h-48 object-cover rounded-xl">
+                            <div class="p-6">
+                                <h3 class="text-xl font-semibold mb-2 text-gray-50">Understanding Arduino IDE and Libraries</h3>
+                                <p class="text-gray-300 text-sm mb-4">
+                                    A comprehensive guide to installing the Arduino IDE, managing libraries, and setting up your first sketch.
+                                </p>
+                                <a href="#" class="btn-primary text-sm">Read Tutorial</a>
+                            </div>
+                        </div>
+
+                        <!-- Example Tutorial Card 2 (Component-focused) -->
+                        <div class="card">
+                            <img src="https://placehold.co/600x350/2d3748/e2e8f0?text=Module+Guide" alt="Servo Motor Tutorial" class="w-full h-48 object-cover rounded-xl">
+                            <div class="p-6">
+                                <h3 class="text-xl font-semibold mb-2 text-gray-50">Controlling Servo Motors with Arduino</h3>
+                                <p class="text-gray-300 text-sm mb-4">
+                                    Learn how to connect and program servo motors for precise angular control in your projects.
+                                </p>
+                                <a href="#" class="btn-primary text-sm">Read Tutorial</a>
+                            </div>
+                        </div>
+
+                        <!-- Example Tutorial Card 3 (Concept-based) -->
+                        <div class="card">
+                            <img src="https://placehold.co/600x350/2d3748/e2e8f0?text=IoT+Basics" alt="IoT with Arduino Tutorial" class="w-full h-48 object-cover rounded-xl">
+                            <div class="p-6">
+                                <h3 class="text-xl font-semibold mb-2 text-gray-50">Introduction to IoT with ESP32 and Arduino</h3>
+                                <p class="text-gray-300 text-sm mb-4">
+                                    Explore the basics of connecting your Arduino projects to the internet using ESP32 modules.
+                                </p>
+                                <a href="#" class="btn-primary text-sm">Read Tutorial</a>
+                            </div>
+                        </div>
+
+                        <!-- Placeholder Tutorial Card 4 -->
+                        <div class="card">
+                            <img src="https://placehold.co/600x350/2d3748/e2e8f0?text=Another+Tutorial" alt="Another Arduino Tutorial" class="w-full h-48 object-cover rounded-xl">
+                            <div class="p-6">
+                                <h3 class="text-xl font-semibold mb-2 text-gray-50">Getting Started with Sensors</h3>
+                                <p class="text-gray-300 text-sm mb-4">
+                                    An introductory guide to various sensors and how to use them with Arduino.
+                                </p>
+                                <a href="#" class="btn-primary text-sm">Read Tutorial</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="text-center mt-12">
+                        <a href="/tutorials" class="btn-secondary">View All Tutorials</a> <!-- Updated href to /tutorials -->
+                    </div>
+                </div>
+            </section>
+
+            <!-- Articles Section - Removed specific content, now all placeholders -->
+            <section id="videos-section" class="py-20 px-4 bg-gray-950">
+                <div class="container mx-auto">
+                    <h2 class="text-4xl font-bold text-center mb-12 text-blue-400">Articles</h2>
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+                        <!-- Placeholder Article Card 1 -->
+                        <div class="card">
+                            <img src="https://placehold.co/600x350/1a202c/e2e8f0?text=Article+Title" alt="Placeholder Article" class="w-full h-48 object-cover rounded-xl">
+                            <div class="p-6">
+                                <h3 class="text-xl font-semibold mb-2 text-gray-50">Article Title 1</h3>
+                                <p class="text-gray-300 text-sm mb-4">
+                                    Brief description or summary of the article content.
+                                </p>
+                                <a href="#" class="btn-primary text-sm">Read Article</a>
+                            </div>
+                        </div>
+
+                        <!-- Placeholder Article Card 2 -->
+                        <div class="card">
+                            <img src="https://placehold.co/600x350/1a202c/e2e8f0?text=Article+Title" alt="Placeholder Article" class="w-full h-48 object-cover rounded-xl">
+                            <div class="p-6">
+                                <h3 class="text-xl font-semibold mb-2 text-gray-50">Article Title 2</h3>
+                                <p class="text-gray-300 text-sm mb-4">
+                                    Brief description or summary of the article content.
+                                </p>
+                                <a href="#" class="btn-primary text-sm">Read Article</a>
+                            </div>
+                        </div>
+
+                        <!-- Placeholder Article Card 3 -->
+                        <div class="card">
+                            <img src="https://placehold.co/600x350/1a202c/e2e8f0?text=Article+Title" alt="Placeholder Article" class="w-full h-48 object-cover rounded-xl">
+                            <div class="p-6">
+                                <h3 class="text-xl font-semibold mb-2 text-gray-50">Article Title 3</h3>
+                                <p class="text-gray-300 text-sm mb-4">
+                                    Brief description or summary of the article content.
+                                </p>
+                                <a href="#" class="btn-primary text-sm">Read Article</a>
+                            </div>
+                        </div>
+
+                        <!-- Placeholder Article Card 4 -->
+                        <div class="card">
+                            <img src="https://placehold.co/600x350/1a202c/e2e8f0?text=Article+Title" alt="Placeholder Article" class="w-full h-48 object-cover rounded-xl">
+                            <div class="p-6">
+                                <h3 class="text-xl font-semibold mb-2 text-gray-50">Article Title 4</h3>
+                                <p class="text-gray-300 text-sm mb-4">
+                                    Brief description or summary of the article content.
+                                </p>
+                                <a href="#" class="btn-primary text-sm">Read Article</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="text-center mt-12">
+                        <a href="/articles" class="btn-secondary">View All Articles</a> <!-- Updated href to /articles -->
+                    </div>
+                </div>
+            </section>
+
+            <!-- Projects Section - Using content from original Projects -->
+            <section id="projects-section" class="bg-gray-900 py-20 px-4">
+                <div class="container mx-auto">
+                    <h2 class="text-4xl font-bold text-center mb-12 text-blue-400">Projects</h2>
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+                        <!-- Example Project Card 1 -->
+                        <div class="card">
+                            <img src="https://placehold.co/600x350/1a202c/e2e8f0?text=Smart+Home+System" alt="Smart Home System" class="w-full h-48 object-cover rounded-xl">
+                            <div class="p-6">
+                                <h3 class="text-xl font-semibold mb-2 text-gray-50">Smart Home Automation with ESP8266</h3>
+                                <p class="text-gray-300 text-sm mb-4">
+                                    Build a simple smart home system to control lights and appliances remotely using Arduino and ESP8266.
+                                </p>
+                                <a href="#" class="btn-primary text-sm">View Project Details</a>
+                            </div>
+                        </div>
+
+                        <!-- Example Project Card 2 -->
+                        <div class="card">
+                            <img src="https://placehold.co/600x350/1a202c/e2e8f0?text=Line+Follower+Robot" alt="Line Follower Robot" class="w-full h-48 object-cover rounded-xl">
+                            <div class="p-6">
+                                <h3 class="text-xl font-semibold mb-2 text-gray-50">Arduino Line Follower Robot</h3>
+                                <p class="text-gray-300 text-sm mb-4">
+                                    Assemble and program your own robot that follows a black line on the floor.
+                                </p>
+                                <a href="#" class="btn-primary text-sm">View Project Details</a>
+                            </div>
+                        </div>
+
+                        <!-- Example Project Card 3 -->
+                        <div class="card">
+                            <img src="https://placehold.co/600x350/1a202c/e2e8f0?text=Weather+Station" alt="Weather Station" class="w-full h-48 object-cover rounded-xl">
+                            <div class="p-6">
+                                <h3 class="text-xl font-semibold mb-2 text-gray-50">DIY Weather Station with Arduino</h3>
+                                <p class="text-gray-300 text-sm mb-4">
+                                    Create a personal weather station to monitor temperature, humidity, and atmospheric pressure.
+                                </p>
+                                <a href="#" class="btn-primary text-sm">View Project Details</a>
+                            </div>
+                        </div>
+
+                        <!-- Placeholder Project Card 4 -->
+                        <div class="card">
+                            <img src="https://placehold.co/600x350/1a202c/e2e8f0?text=Another+Project" alt="Another Arduino Project" class="w-full h-48 object-cover rounded-xl">
+                            <div class="p-6">
+                                <h3 class="text-xl font-semibold mb-2 text-gray-50">Automatic Plant Watering System</h3>
+                                <p class="text-gray-300 text-sm mb-4">
+                                    Build a smart system that waters your plants automatically based on soil moisture.
+                                </p>
+                                <a href="#" class="btn-primary text-sm">View Project Details</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="text-center mt-12">
+                        <a href="/projects" class="btn-secondary">Explore More Projects</a> <!-- Updated href to /projects -->
+                    </div>
+                </div>
+            </section>
+
+            <!-- About HuHamster Section - Restored original content -->
+            <section id="about-section" class="py-20 px-4 bg-gray-950">
+                <div class="container mx-auto text-center">
+                    <h2 class="text-4xl font-bold mb-8 text-blue-400">About HuHamster</h2>
+                    <p class="text-lg text-gray-300 max-w-3xl mx-auto leading-relaxed">
+                        HuHamster is your dedicated resource for everything Arduino! We believe that learning electronics and programming should be fun and accessible to everyone. Our channel and website provide clear, step-by-step tutorials, exciting project ideas, and practical guides for beginners and enthusiasts alike.
+                    </p>
+                    <p class="text-lg text-gray-300 max-w-3xl mx-auto mt-6 leading-relaxed">
+                        Join our community of makers and start bringing your ideas to life with Arduino!
+                    </p>
+                    <!-- Avatar image added here -->
+                    <img src="https://placehold.co/200x200/2D3748/E2E8F0?text=HuHamster+Avatar" alt="HuHamster Avatar" class="rounded-full w-40 h-40 mx-auto mt-10 shadow-lg object-cover border-4 border-blue-600">
+                </div>
+            </section>
+
+            <!-- Contact Us Section - Updated for mailto functionality -->
+            <section id="contact-section" class="bg-gray-900 py-20 px-4">
+                <div class="container mx-auto">
+                    <h2 class="text-4xl font-bold text-center mb-8 text-blue-400">Contact Us</h2>
+                    <p class="text-center text-gray-300 mb-10 max-w-2xl mx-auto">
+                        Have questions, suggestions, or just want to say hello? Feel free to reach out to us!
+                    </p>
+                    <div class="max-w-md mx-auto bg-gray-800 p-8 rounded-xl shadow-xl border border-gray-700">
+                        <form onsubmit="return submitContactForm(event);">
+                            <div class="mb-5">
+                                <label for="name" class="block text-gray-200 text-sm font-bold mb-2">Name:</label>
+                                <input type="text" id="name" name="name" placeholder="Your Name"
+                                       class="shadow appearance-none border border-gray-600 rounded-lg w-full py-3 px-4 bg-gray-700 text-gray-100 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-200" required>
+                            </div>
+                            <div class="mb-5">
+                                <label for="email" class="block text-gray-200 text-sm font-bold mb-2">Email:</label>
+                                <input type="email" id="email" name="email" placeholder="your.email@example.com"
+                                       class="shadow appearance-none border border-gray-600 rounded-lg w-full py-3 px-4 bg-gray-700 text-gray-100 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-200" required>
+                            </div>
+                            <div class="mb-7">
+                                <label for="message" class="block text-gray-200 text-sm font-bold mb-2">Message:</label>
+                                <textarea id="message" name="message" rows="6" placeholder="Your message here..."
+                                          class="shadow appearance-none border border-gray-600 rounded-lg w-full py-3 px-4 bg-gray-700 text-gray-100 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-200" required></textarea>
+                            </div>
+                            <div class="flex items-center justify-center">
+                                <button type="submit" class="btn-primary">Send Message</button>
+                            </div>
+                            <p id="form-message" class="text-green-400 mt-4 text-center hidden">Your message is ready to be sent!</p>
+                        </form>
+                    </div>
+                </div>
+            </section>
+
+        </main>
+
+        <!-- Footer - Restored original content -->
+        <footer class="bg-gray-800 text-white py-8 px-4 rounded-t-xl shadow-inner border-t border-gray-700">
+            <div class="container mx-auto text-center">
+                <p class="text-sm text-gray-400">&copy; 2025 HuHamster. All rights reserved.</p>
+                <div class="flex justify-center space-x-6 mt-4">
+                    <!-- Placeholder social media links -->
+                    <a href="https://www.youtube.com/@HuHamster" target="_blank" class="text-gray-400 hover:text-blue-400 transition duration-300">YouTube</a>
+                    <a href="#" target="_blank" class="text-gray-400 hover:text-blue-400 transition duration-300">Facebook</a>
+                    <a href="#" target="_blank" class="text-gray-400 hover:text-blue-400 transition duration-300">Instagram</a>
+                </div>
+            </div>
+        </footer>
+
+        <!-- Scroll to Top Button -->
+        <button id="scrollToTopBtn" title="Go to top">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18"></path>
+            </svg>
+        </button>
+    </div>
+
+    <!-- JavaScript for mobile menu toggle and scroll-to-top button -->
+    <script>
+        // Function to toggle the mobile navigation menu
+        function toggleMenu() {
+            const mobileMenu = document.getElementById('mobile-menu');
+            mobileMenu.classList.toggle('active');
+        }
+
+        // Close mobile menu when a link inside it is clicked
+        document.querySelectorAll('#mobile-menu a').forEach(item => {
+            item.addEventListener('click', () => {
+                const mobileMenu = document.getElementById('mobile-menu');
+                if (mobileMenu.classList.contains('active')) {
+                    mobileMenu.classList.remove('active');
+                }
+            });
+        });
+
+        // Get the scroll to top button
+        const scrollToTopBtn = document.getElementById("scrollToTopBtn");
+
+        // When the user scrolls down 20px from the top of the document, show the button
+        window.onscroll = function() {
+            if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+                scrollToTopBtn.style.display = "block";
+                scrollToTopBtn.style.opacity = "1";
+                scrollToTopBtn.style.transform = "translateY(0)";
+            } else {
+                scrollToTopBtn.style.opacity = "0";
+                scrollToTopBtn.style.transform = "translateY(10px)";
+                // Hide after transition for cleaner display
+                setTimeout(() => {
+                    if (scrollToTopBtn.style.opacity === "0") {
+                        scrollToTopBtn.style.display = "none";
+                    }
+                }, 300);
+            }
+        };
+
+        // When the user clicks on the button, scroll to the top of the document
+        scrollToTopBtn.addEventListener("click", function() {
+            window.scrollTo({
+                top: 0,
+                behavior: "smooth"
+            });
+        });
+
+        // Function to handle contact form submission
+        function submitContactForm(event) {
+            event.preventDefault(); // Prevent default form submission
+
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const message = document.getElementById('message').value;
+            const formMessage = document.getElementById('form-message');
+
+            if (name && email && message) {
+                const subject = encodeURIComponent(`Message from HuHamster website by ${name}`);
+                const body = encodeURIComponent(`Name: ${name}\nEmail: ${email}\n\nMessage:\n${message}`);
+                const mailtoLink = `mailto:your-email@example.com?subject=${subject}&body=${body}`; // REPLACE with your actual email
+
+                window.location.href = mailtoLink; // Open the mail client
+
+                formMessage.textContent = "Your message is ready to be sent! Your email client should open shortly.";
+                formMessage.classList.remove('hidden'); // Show success message
+                formMessage.classList.remove('text-red-400');
+                formMessage.classList.add('text-green-400');
+            } else {
+                formMessage.textContent = "Please fill in all fields.";
+                formMessage.classList.remove('hidden'); // Show error message
+                formMessage.classList.remove('text-green-400');
+                formMessage.classList.add('text-red-400');
+            }
+            return false; // Prevent form from submitting normally
+        }
+    </script>
 </body>
 </html>
