@@ -1,6 +1,17 @@
-<html lang="en"><head><style>body {transition: opacity ease-in 0.2s; } 
-body[unresolved] {opacity: 0; display: block; overflow: hidden; position: relative; } 
-</style><style id="stndz-custom-css"></style>
+<html lang="en">
+<head>
+    <style>
+        body {
+            transition: opacity ease-in 0.2s;
+        }
+        body[unresolved] {
+            opacity: 0;
+            display: block;
+            overflow: hidden;
+            position: relative;
+        }
+    </style>
+    <style id="stndz-custom-css"></style>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>HuHamster - Mercury Tilt Sensor Project</title>
@@ -10,8 +21,13 @@ body[unresolved] {opacity: 0; display: block; overflow: hidden; position: relati
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&amp;display=swap" rel="stylesheet">
     <!-- Font Awesome for icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <!-- Google AdSense Script (оновлено згідно з вашим запитом) -->
+    <!-- Google AdSense Script -->
     <script async="" src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6623599799572768" crossorigin="anonymous"></script>
+    <script>
+        // Ensure the adsbygoogle array exists globally, even if the AdSense script loads asynchronously later.
+        // This is crucial for preventing "adsbygoogle is not defined" errors.
+        window.adsbygoogle = window.adsbygoogle || [];
+    </script>
     <style>
         /* Set the main font for the entire website */
         body {
@@ -212,8 +228,6 @@ body[unresolved] {opacity: 0; display: block; overflow: hidden; position: relati
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4); /* Shadow for the iframe */
         }
     </style>
-    <!-- Favicon link -->
-    <link rel="icon" href="/favicon.png" type="image/png">
 </head>
 <body class="antialiased">
 
@@ -314,17 +328,12 @@ body[unresolved] {opacity: 0; display: block; overflow: hidden; position: relati
 
                     <!-- AdSense Ad - In-article ad within a styled block -->
                     <div class="bg-gray-900 p-10 rounded-3xl shadow-3xl border border-gray-700 mb-16 transition-all duration-300 hover:shadow-blue-900/40 flex justify-center items-center">
-                        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6623599799572768"
-                                crossorigin="anonymous"></script>
-                        <ins class="adsbygoogle"
+                        <ins class="adsbygoogle w-full"
                                 style="display:block; text-align:center;"
                                 data-ad-layout="in-article"
                                 data-ad-format="fluid"
                                 data-ad-client="ca-pub-6623599799572768"
                                 data-ad-slot="9745624899"></ins>
-                        <script>
-                                (adsbygoogle = window.adsbygoogle || []).push({});
-                        </script>
                     </div>
 
                     <!-- Schematics Section -->
@@ -345,17 +354,12 @@ body[unresolved] {opacity: 0; display: block; overflow: hidden; position: relati
 
                     <!-- AdSense Ad - Fluid ad within a styled block -->
                     <div class="bg-gray-900 p-10 rounded-3xl shadow-3xl border border-gray-700 mb-16 transition-all duration-300 hover:shadow-blue-900/40 flex justify-center items-center">
-                        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6623599799572768"
-                                crossorigin="anonymous"></script>
-                        <ins class="adsbygoogle"
+                        <ins class="adsbygoogle w-full"
                                 style="display:block"
                                 data-ad-format="fluid"
                                 data-ad-layout-key="-5x+cl-e-8b+of"
                                 data-ad-client="ca-pub-6623599799572768"
                                 data-ad-slot="5929970139"></ins>
-                        <script>
-                                (adsbygoogle = window.adsbygoogle || []).push({});
-                        </script>
                     </div>
 
                     <!-- Firmware/Code Section -->
@@ -477,4 +481,15 @@ body[unresolved] {opacity: 0; display: block; overflow: hidden; position: relati
                 behavior: "smooth"
             });
         });
+
+        // Push AdSense ads after the DOM is fully loaded
+        document.addEventListener('DOMContentLoaded', function() {
+            // Push the in-article ad
+            // adsbygoogle is guaranteed to be defined here due to the script tag in the head
+            (adsbygoogle = window.adsbygoogle || []).push({});
+            // Push the fluid ad
+            (adsbygoogle = window.adsbygoogle || []).push({});
+        });
     </script>
+</body>
+</html>
