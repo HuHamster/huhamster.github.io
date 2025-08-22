@@ -1,0 +1,489 @@
+<html lang="en">
+<head>
+    <style>
+        body {
+            transition: opacity ease-in 0.2s;
+        }
+        body[unresolved] {
+            opacity: 0;
+            display: block;
+            overflow: hidden;
+            position: relative;
+        }
+    </style>
+    <style id="stndz-custom-css"></style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HuHamster - People Counter Project</title>
+    <!-- Adding a link to favicon.ico to avoid a 404 error -->
+    <link rel="icon" href="data:," />
+    <!-- Link to Tailwind CSS CDN for quick and responsive styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Link to Inter font from Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&amp;display=swap" rel="stylesheet">
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- Google AdSense Script -->
+    <script async="" src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6623599799572768" crossorigin="anonymous"></script>
+    <script>
+        // Ensure the adsbygoogle global array exists, even if the AdSense script loads asynchronously later.
+        // This is crucial for preventing "adsbygoogle is not defined" errors.
+        window.adsbygoogle = window.adsbygoogle || [];
+    </script>
+    <style>
+        /* Set the main font for the entire website */
+        body {
+            font-family: 'Inter', sans-serif;
+            /* Apply a very dark background and light text using Tailwind's @apply directive */
+            @apply bg-gradient-to-br from-gray-950 to-gray-800 text-gray-100;
+        }
+        /* Styles for smooth scrolling */
+        html {
+            scroll-behavior: smooth;
+        }
+        /* Base styles for primary buttons, adding depth and interactivity */
+        .btn-primary {
+            /* Apply Tailwind classes for padding, background, font, rounded corners, shadow, and hover effects */
+            @apply px-8 py-4 bg-gradient-to-r from-blue-600 to-blue-700 font-bold rounded-xl shadow-2xl hover:from-blue-700 hover:to-blue-800 transition duration-300 ease-in-out transform hover:-translate-y-1 hover:scale-105 focus:outline-none focus:ring-4 focus:ring-blue-500 focus:ring-opacity-70;
+            /* Explicitly set white text color for high contrast */
+            color: #FFFFFF !important;
+        }
+        /* Base styles for secondary buttons, adding depth and interactivity */
+        .btn-secondary {
+            /* Apply Tailwind classes for padding, background, font, rounded corners, shadow, and hover effects */
+            @apply px-8 py-4 bg-gradient-to-r from-gray-700 to-gray-800 font-bold rounded-xl shadow-2xl hover:from-gray-600 hover:to-gray-700 transition duration-300 ease-in-out transform hover:-translate-y-1 hover:scale-105 focus:outline-none focus:ring-4 focus:ring-gray-600 focus:ring-opacity-70;
+            /* Explicitly set white text color for high contrast */
+            color: #FFFFFF !important;
+        }
+        /* Styles for video/project cards, adding distinct borders and hover effects */
+        .card {
+            /* Apply Tailwind classes for background, rounded corners, shadow, overflow, and hover effects */
+            @apply bg-gray-900 rounded-2xl shadow-2xl overflow-hidden transform transition duration-300 hover:scale-[1.03] hover:shadow-3xl border border-gray-700;
+        }
+        /* Styles for images inside cards, ensuring they responsively cover their area */
+        .card img {
+            /* Apply Tailwind classes for full width, fixed height, object fit, and rounded corners */
+            @apply w-full h-56 object-cover rounded-t-2xl; /* Increased height and applied rounded corners at the top */
+        }
+
+        /* --- Special navigation styles for responsiveness --- */
+
+        /* Styles for individual navigation links (apply to both desktop and mobile) */
+        nav a {
+            /* Apply Tailwind classes for hover effect, transition, and font weight */
+            @apply hover:text-blue-400 transition duration-300 font-medium;
+            /* Explicitly set white text color for high contrast */
+            color: #FFFFFF !important;
+        }
+
+        /* Special mobile navigation styles (initially hidden by default) */
+        .mobile-nav {
+            display: none; /* Hidden by default */
+            flex-direction: column; /* Arrange elements vertically */
+            width: 100%; /* Full width */
+            background-color: #1f2937; /* A darker background for the mobile menu */
+            position: absolute; /* Position relative to the nearest positioned ancestor */
+            top: 72px; /* Position below the header (assuming header height is 64px + some spacing) */
+            left: 0; /* Align to the left edge */
+            padding: 1rem 0; /* Vertical padding */
+            border-bottom-left-radius: 1rem; /* Rounded bottom-left corner */
+            border-bottom-right-radius: 1rem; /* Rounded bottom-right corner */
+            box-shadow: 0 8px 16px -4px rgba(0, 0, 0, 0.7); /* Stronger shadow */
+            z-index: 40; /* Ensure it is above other content but below the main header */
+        }
+        /* When mobile navigation is active, display it as a flex container */
+        .mobile-nav.active {
+            display: flex;
+        }
+        /* Styles for individual links in the mobile navigation */
+        .mobile-nav a {
+            padding: 0.75rem 1.5rem; /* Padding for touch targets */
+            width: 100%; /* Full width for each link */
+            text-align: center; /* Center-align text */
+            color: #d1d5db; /* Light gray text for mobile links */
+            transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
+        }
+        /* Hover effects for mobile nav links */
+        .mobile-nav a:hover {
+            background-color: #374151; /* Darker background on hover */
+            color: #93c5fd; /* Lighter blue on hover */
+        }
+
+        /* Styles for the hamburger icon (hidden by default on desktop) */
+        .hamburger {
+            display: none;
+        }
+
+        /* Media query for mobile screens (max-width: 768px is a typical tablet breakpoint) */
+        @media (max-width: 768px) {
+            .desktop-nav {
+                display: none; /* Hide desktop nav on mobile */
+            }
+            .hamburger {
+                display: block; /* Show hamburger on mobile */
+            }
+        }
+
+        /* Media query for desktop screens (min-width: 769px) */
+        @media (min-width: 769px) {
+            .desktop-nav {
+                display: flex !important; /* Ensure desktop nav is displayed */
+            }
+            .mobile-nav {
+                display: none !important; /* Explicitly hide mobile nav on desktop, overrides any JS */
+            }
+            .hamburger {
+                display: none !important; /* Hide hamburger on desktop */
+            }
+        }
+        /* --- End of special navigation styles --- */
+
+        /* Keyframe animations for hero section elements (though not directly used on this project page, kept for consistency) */
+        @keyframes fade-in-down {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fade-in-up {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .animate-fade-in-down {
+            animation: fade-in-down 0.8s ease-out forwards;
+        }
+
+        .animate-fade-in-up {
+            animation: fade-in-up 0.8s ease-out forwards;
+            animation-delay: 0.2s;
+            animation-fill-mode: backwards;
+        }
+
+        /* Styles for the scroll-to-top button */
+        #scrollToTopBtn {
+            position: fixed; /* Fixed position relative to the viewport */
+            bottom: 24px; /* A little bit up from the bottom */
+            right: 24px; /* A little bit in from the right */
+            background-color: #3b82f6; /* Tailwind's blue-600 */
+            color: white; /* White text/icon */
+            padding: 1.25rem; /* Larger padding for a better touch target */
+            border-radius: 9999px; /* Fully rounded to make it a circle */
+            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.5); /* Stronger shadow */
+            display: none; /* Hidden by default, shown by JS */
+            transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out, background-color 0.2s ease-in-out; /* Smooth transition for appearance/disappearance */
+            cursor: pointer; /* Pointer cursor on hover */
+            z-index: 100; /* Ensure it is on top of other content */
+        }
+        /* Hover effects for the scroll-to-top button */
+        #scrollToTopBtn:hover {
+            background-color: #2563eb; /* Darker blue on hover (blue-700) */
+            transform: translateY(-5px) scale(1.05); /* More pronounced lift and a slight scale effect on hover */
+        }
+
+        /* Code block styles - not used for this page but kept for general consistency */
+        pre {
+            background-color: #1a202c; /* Darker background for code (gray-900) */
+            color: #e2e8f0; /* Light text color (gray-200) */
+            padding: 1.5rem; /* Increased padding */
+            border-radius: 0.75rem; /* More rounded corners */
+            overflow-x: auto; /* Allow horizontal scrolling for long lines */
+            font-family: 'Fira Code', 'Cascadia Code', monospace; /* Monospaced font for code */
+            font-size: 1rem; /* Slightly larger font size */
+            line-height: 1.6;
+            margin-bottom: 2rem; /* Larger bottom margin */
+            border: 1px solid #2d3748; /* Thin border (gray-800) */
+            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.3); /* Inset shadow for depth */
+        }
+        code {
+            font-family: 'Fira Code', 'Cascadia Code', monospace; /* Monospaced font for inline code */
+            background-color: #2d3748; /* Dark background for inline code */
+            padding: 0.2em 0.4em; /* Padding for inline code */
+            border-radius: 0.2em; /* Rounded corners for inline code */
+        }
+        /* Responsive aspect ratio for embedded video */
+        .aspect-w-16 {
+            position: relative;
+            width: 100%;
+            padding-bottom: 56.25%; /* 16:9 aspect ratio */
+            height: 0;
+            overflow: hidden;
+        }
+        .aspect-h-9 iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border-radius: 0.75rem; /* Rounded corners for iframe */
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4); /* Shadow for iframe */
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <!-- Overall container for the website -->
+    <div class="min-h-screen flex flex-col">
+
+        <!-- Header -->
+        <header class="bg-gray-800 shadow-lg p-4 sticky top-0 z-50 border-b border-gray-700 backdrop-blur-sm bg-opacity-90">
+            <div class="container mx-auto flex justify-between items-center">
+                <!-- Logo/Channel Name -->
+                <a href="#project-details" class="text-3xl font-extrabold text-blue-400 hover:text-blue-300 transition duration-300 tracking-wider">HuHamster</a>
+
+                <!-- Navigation menu (for desktop) -->
+                <nav class="hidden md:flex space-x-10 desktop-nav text-lg">
+                    <a href="#description" class="relative group">Description<span class="absolute inset-x-0 bottom-0 h-0.5 bg-blue-400 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300"></span></a>
+                    <a href="#video-tutorial" class="relative group">Video<span class="absolute inset-x-0 bottom-0 h-0.5 bg-blue-400 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300"></span></a>
+                    <a href="#required-components" class="relative group">Components<span class="absolute inset-x-0 bottom-0 h-0.5 bg-blue-400 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300"></span></a>
+                    <a href="#wiring-diagram" class="relative group">Diagram<span class="absolute inset-x-0 bottom-0 h-0.5 bg-blue-400 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300"></span></a>
+                    <a href="#firmware" class="relative group">Firmware<span class="absolute inset-x-0 bottom-0 h-0.5 bg-blue-400 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300"></span></a>
+                </nav>
+
+                <!-- Hamburger menu for mobile devices -->
+                <button class="md:hidden text-gray-300 focus:outline-none hamburger" onclick="toggleMenu()">
+                    <svg class="w-9 h-9" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                    </svg>
+                </button>
+            </div>
+            <!-- Mobile navigation menu (hidden by default, only shown via JS on small screens) -->
+            <nav class="mobile-nav" id="mobile-menu">
+                <a href="#description" class="block py-3 text-lg">Description</a>
+                <a href="#video-tutorial" class="block py-3 text-lg">Video</a>
+                <a href="#required-components" class="block py-3 text-lg">Components</a>
+                <a href="#wiring-diagram" class="block py-3 text-lg">Diagram</a>
+                <a href="#firmware" class="block py-3 text-lg">Firmware</a>
+            </nav>
+        </header>
+
+        <!-- Main content area -->
+        <main class="flex-grow">
+
+            <!-- "Project Description" section -->
+            <section id="description" class="py-20 px-4 bg-gradient-to-b from-gray-950 to-gray-800">
+                <div class="container mx-auto max-w-5xl">
+                    <h1 class="text-6xl font-extrabold text-center mb-6 text-blue-400 animate-fade-in-down drop-shadow-lg">Room People Counter</h1>
+                    <p class="text-2xl text-gray-300 text-center mb-16 animate-fade-in-up leading-relaxed">
+                        Learn how to create a simple and effective people counter for any room using an Arduino.
+                    </p>
+
+                    <!-- Project Description -->
+                    <div class="bg-gray-900 p-10 rounded-3xl shadow-3xl border border-gray-700 mb-16 transition-all duration-300 hover:shadow-blue-900/40">
+                        <h2 class="text-4xl font-bold mb-8 text-gray-50 border-b-2 border-blue-600 pb-4">Description</h2>
+                        <p class="text-gray-300 text-xl leading-loose mb-6">
+                            Want to make the same people counter in your room? I'll show you how to do it in 30 seconds. This is an ideal project for beginners that will help you understand how infrared sensors and OLED displays work.
+                        </p>
+                        <p class="text-gray-300 text-xl leading-loose mb-6">
+                            A people counter is an electronic device that uses infrared sensors to detect movement and count the number of people entering or leaving a room. The data is displayed on a small but bright OLED display, making it ideal for real-time occupancy monitoring.
+                        </p>
+                        <p class="text-gray-300 text-xl leading-loose">
+                            This project is perfect for home use, small offices, or any space where you need to quickly and accurately count the number of people. It's a simple but powerful way to manage a space.
+                        </p>
+                    </div>
+
+                    <!-- "Video Tutorial" section -->
+                    <div id="video-tutorial" class="bg-gray-900 p-10 rounded-3xl shadow-3xl border border-gray-700 mb-16 transition-all duration-300 hover:shadow-blue-900/40">
+                        <h2 class="text-4xl font-bold mb-8 text-gray-50 border-b-2 border-blue-600 pb-4">Video Tutorial</h2>
+                        <div class="aspect-w-16 aspect-h-9">
+                            <!-- YouTube embed code for the provided video -->
+                            <!-- Updated video URL for the people counter -->
+                            <iframe class="w-full h-96 rounded-2xl" src="https://www.youtube.com/embed/gT4d4Q47x84" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe>
+                        </div>
+                    </div>
+
+                    <!-- "Required Components" section -->
+                    <div id="required-components" class="bg-gray-900 p-10 rounded-3xl shadow-3xl border border-gray-700 mb-16 transition-all duration-300 hover:shadow-blue-900/40">
+                        <h2 class="text-4xl font-bold mb-8 text-gray-50 border-b-2 border-blue-600 pb-4">Required Components</h2>
+                        <ul class="list-disc list-inside text-gray-300 text-xl leading-loose space-y-2">
+                            <li class="flex items-center">
+                                <i class="fas fa-microchip text-blue-400 mr-2"></i>Arduino (e.g., Uno, Nano) -
+                                <a href="https://fas.st/PK0El" target="_blank" class="text-blue-400 hover:underline ml-2">Aliexpress</a>,
+                                <a href="https://cutt.ly/grWgMB6T" target="_blank" class="text-blue-400 hover:underline ml-2">Amazon</a>
+                            </li>
+                            <li class="flex items-center">
+                                <i class="fas fa-desktop text-blue-400 mr-2"></i>OLED Display (0.96 inch I2C) -
+                                <a href="https://fas.st/RmbWv" target="_blank" class="text-blue-400 hover:underline ml-2">Aliexpress</a>,
+                                <a href="https://cutt.ly/IrJSPmjw" target="_blank" class="text-blue-400 hover:underline ml-2">Amazon</a>
+                            </li>
+                            <li class="flex items-center">
+                                <i class="fas fa-satellite-dish text-blue-400 mr-2"></i>Two Infrared Sensors -
+                                <a href="https://fas.st/pypKv1" target="_blank" class="text-blue-400 hover:underline ml-2">Aliexpress</a>,
+                                <a href="https://cutt.ly/PrJSS6LF" target="_blank" class="text-blue-400 hover:underline ml-2">Amazon</a>
+                            </li>
+                            <li class="flex items-center">
+                                <i class="fas fa-plug text-blue-400 mr-2"></i>Jumper Wires -
+                                <a href="https://fas.st/2X_Ta0" target="_blank" class="text-blue-400 hover:underline ml-2">Aliexpress</a>,
+                                <a href="https://cutt.ly/YrWg1NiE" target="_blank" class="text-blue-400 hover:underline ml-2">Amazon</a>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- AdSense block - In-article ad in a stylized block -->
+                    <div class="bg-gray-900 p-10 rounded-3xl shadow-3xl border border-gray-700 mb-16 transition-all duration-300 hover:shadow-blue-900/40 flex justify-center items-center">
+                        <ins class="adsbygoogle w-full"
+                                style="display:block; text-align:center;"
+                                data-ad-layout="in-article"
+                                data-ad-format="fluid"
+                                data-ad-client="ca-pub-6623599799572768"
+                                data-ad-slot="9745624899"></ins>
+                    </div>
+
+                    <!-- "Wiring Diagram" section -->
+                    <div id="wiring-diagram" class="bg-gray-900 p-10 rounded-3xl shadow-3xl border border-gray-700 mb-16 transition-all duration-300 hover:shadow-blue-900/40">
+                        <h2 class="text-4xl font-bold mb-8 text-gray-50 border-b-2 border-blue-600 pb-4">Wiring Diagram</h2>
+                        <img src="https://github.com/HuHamster/ir-counter/blob/main/ir-counter-diagram.png?raw=true" alt="Wiring diagram for the people counter" class="w-full h-auto rounded-xl shadow-xl mt-6">
+                    </div>
+
+                    <!-- AdSense block - Responsive ad in a stylized block -->
+                    <div class="bg-gray-900 p-10 rounded-3xl shadow-3xl border border-gray-700 mb-16 transition-all duration-300 hover:shadow-blue-900/40 flex justify-center items-center">
+                        <ins class="adsbygoogle w-full"
+                                style="display:block"
+                                data-ad-format="fluid"
+                                data-ad-layout-key="-5x+cl-e-8b+of"
+                                data-ad-client="ca-pub-6623599799572768"
+                                data-ad-slot="5929970139"></ins>
+                    </div>
+
+                    <!-- "Firmware/Code" section -->
+                    <div id="firmware" class="bg-gray-900 p-10 rounded-3xl shadow-3xl border border-gray-700 mb-16 transition-all duration-300 hover:shadow-blue-900/40">
+                        <h2 class="text-4xl font-bold mb-8 text-gray-50 border-b-2 border-blue-600 pb-4">Firmware</h2>
+                        <p class="text-gray-300 text-xl leading-loose mb-6">
+                            All that's left is to upload the firmware to the Arduino. The ready-made code is available via the links below.
+                        </p>
+                        <div class="flex flex-col sm:flex-row justify-center space-y-6 sm:space-y-0 sm:space-x-8 mt-10">
+                            <!-- "Download" button with icon and updated style -->
+                            <a href="https://github.com/HuHamster/ir-counter/archive/refs/heads/main.zip" class="btn-primary text-center flex items-center justify-center space-x-3">
+                                <i class="fas fa-download text-xl"></i>
+                                <span class="text-xl">Download Code</span>
+                            </a>
+                            <!-- GitHub button with icon and updated style -->
+                            <a href="https://github.com/HuHamster/ir-counter" target="_blank" class="btn-secondary text-center flex items-center justify-center space-x-3">
+                                <i class="fab fa-github text-xl"></i>
+                                <span class="text-xl">View on GitHub</span>
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- "Support" section -->
+                    <div class="bg-gray-900 p-10 rounded-3xl shadow-3xl border border-gray-700 transition-all duration-300 hover:shadow-blue-900/40">
+                        <h2 class="text-4xl font-bold mb-8 text-gray-50 border-b-2 border-blue-600 pb-4">Support HuHamster</h2>
+                        <p class="text-gray-300 text-xl leading-loose mb-8">
+                            Did you enjoy this project? Your support helps us create more useful content and exciting Arduino tutorials. Consider supporting our work! Click the "Support me" button in the bottom left corner.
+                        </p>
+                        <div class="flex justify-center">
+                            <!-- New Ko-fi floating widget -->
+                            <script src="https://storage.ko-fi.com/cdn/scripts/overlay-widget.js"></script>
+                            <script>
+                                kofiWidgetOverlay.draw('huhamster', {
+                                    'type': 'floating-chat',
+                                    'floating-chat.donateButton.text': 'Support me',
+                                    'floating-chat.donateButton.background-color': '#00b9fe',
+                                    'floating-chat.donateButton.text-color': '#fff'
+                                });
+                            </script>
+                        </div>
+                    </div>
+
+                </div>
+            </section>
+
+        </main>
+
+        <!-- Footer -->
+        <footer class="bg-gray-800 text-white py-10 px-4 shadow-inner border-t border-gray-700 mt-0">
+            <div class="container mx-auto text-center">
+                <p class="text-lg text-gray-400 mb-4">© 2025 HuHamster. All rights reserved.</p>
+                <div class="flex justify-center space-x-8 mt-4">
+                    <!-- YouTube social media link -->
+                    <a href="https://www.youtube.com/@HuHamster" target="_blank" class="text-gray-400 hover:text-blue-400 transition duration-300 text-2xl"><i class="fab fa-youtube"></i></a>
+                    <!-- GitHub social media link -->
+                    <a href="https://github.com/HuHamster" target="_blank" class="text-gray-400 hover:text-blue-400 transition duration-300 text-2xl"><i class="fab fa-github"></i></a>
+                </div>
+            </div>
+        </footer>
+
+        <!-- "Scroll to Top" button -->
+        <button id="scrollToTopBtn" title="Go to top">
+            <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18"></path>
+            </svg>
+        </button>
+    </div>
+
+    <!-- JavaScript for toggling the mobile menu and the scroll-to-top button -->
+    <script>
+        // Function to toggle the 'active' class of the mobile navigation menu
+        function toggleMenu() {
+            const mobileMenu = document.getElementById('mobile-menu');
+            mobileMenu.classList.toggle('active'); // Add or remove the 'active' class
+        }
+
+        // Close the mobile menu when any link inside it is clicked
+        document.querySelectorAll('#mobile-menu a').forEach(item => {
+            item.addEventListener('click', () => {
+                const mobileMenu = document.getElementById('mobile-menu');
+                // Check if the mobile menu currently has the 'active' class
+                if (mobileMenu.classList.contains('active')) {
+                    // If so, remove the 'active' class to hide the menu
+                    mobileMenu.classList.remove('active');
+                }
+            });
+        });
+
+        // Get the scroll-to-top button element
+        const scrollToTopBtn = document.getElementById("scrollToTopBtn");
+
+        // Add a scroll event listener to the window
+        window.onscroll = function() {
+            // Check if the user has scrolled more than 20 pixels from the top
+            if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+                // If scrolled, display the button and make it visible with a transition
+                scrollToTopBtn.style.display = "block";
+                scrollToTopBtn.style.opacity = "1";
+                scrollToTopBtn.style.transform = "translateY(0)";
+            } else {
+                // If at the top, start the fade-out and hide transition
+                scrollToTopBtn.style.opacity = "0";
+                scrollToTopBtn.style.transform = "translateY(10px)";
+                // After the transition completes (300ms), truly hide the button
+                // This prevents it from taking up space while invisible
+                setTimeout(() => {
+                    if (scrollToTopBtn.style.opacity === "0") {
+                        scrollToTopBtn.style.display = "none";
+                    }
+                }, 300);
+            }
+        };
+
+        // Add a click event listener to the scroll to top button
+        scrollToTopBtn.addEventListener("click", function() {
+            // Scroll the window to the top with a smooth animation
+            window.scrollTo({
+                top: 0,
+                behavior: "smooth"
+            });
+        });
+
+        // Push AdSense ads after the DOM is fully loaded
+        document.addEventListener('DOMContentLoaded', function() {
+            // Push the in-article ad
+            // adsbygoogle is guaranteed to be defined here due to the script tag in the head
+            (adsbygoogle = window.adsbygoogle || []).push({});
+            // Push the fluid ad
+            (adsbygoogle = window.adsbygoogle || []).push({});
+        });
+    </script>
+</body>
+</html>
